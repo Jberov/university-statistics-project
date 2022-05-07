@@ -26,12 +26,17 @@ public class FrequencyAnalyzer {
                 exerciseFrequencyCount.put (exerciseCount, 1);
             }
         }
+        Set<Integer> exerciseFrequencyCountKeySet = exerciseFrequencyCount.keySet ();
+        Iterator<Integer> iterator = exerciseFrequencyCountKeySet.iterator ();
 
-        //TODO Finish the analysis
-        System.out.println ("Frequency analysis of number of exercises uploaded per student ");
-        System.out.println ("-------------------------------------------------------------------------------------");
-        System.out.println ("");
-
+        System.out.println ("Frequency analysis of number of exercises uploaded per student");
+        System.out.println ("----------------------------------------------------------------------");
+        System.out.println ("| Count uploaded exercises | Absolute frequency | Relative frequency |");
+        while(iterator.hasNext ()){
+            int i = iterator.next ();
+            System.out.println ("|          " + i + "          |" + "          " + exerciseFrequencyCount.get (i) + "         |" + "          " + findRelativeFrequency (i, (double) exerciseFrequencyCount.get (i)) + "%         |");
+        }
+        System.out.println ("----------------------------------------------------------------------");
     }
 
     private HashMap<String, Integer> findAbsoluteFrequency(String filepath) throws IOException, ParseException {
