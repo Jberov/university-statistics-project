@@ -27,17 +27,10 @@ public class Main {
                             case 0:
                                 break;
                             case 1:
-                                scanner.nextLine ();
-                                System.out.println ("Enter file name");
-                                Thread.sleep (1000);
-                                String filepath = scanner.nextLine();
-                                System.out.println ();
-                                FileDataReader fileReader = new FileDataReader ();
-                                fileReader.readAllDataFromFile(filepath);
+                                //Find average grade
                                 break;
                             case 2:
-                                System.out.println ("Searching...");
-                                Thread.sleep (2000);
+                                //Count all students
                                 break;
                             default:
                                 System.out.println ("Wrong choice: ");
@@ -45,19 +38,19 @@ public class Main {
                         }
                         break;
                     case 2:
-                        System.out.println ("Calculating");
+                        //Frequency analysis
                         break;
                     case 3:
-                        System.out.println ("Calculating");
+                        //Condense data
                         break;
                     case 4:
-                        System.out.println ("Calculating");
+                        //Tendency
                         break;
                     case 5:
-                        System.out.println ("Calculating");
+                        //Dispersion analysis
                         break;
                     case 6:
-                        System.out.println ("Calculating");
+                        //Correlational analysis
                         break;
                     default:
                         System.out.println ("Invalid choice. Please enter the digit in front of the desired command");

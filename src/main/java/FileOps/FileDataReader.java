@@ -22,7 +22,7 @@ public class FileDataReader {
 
     private static String fileType;
 
-    public List<?> readAllDataFromFile(String filepath) throws IOException, ParseException {
+    public List readAllDataFromFile(String filepath) throws IOException, ParseException {
         Sheet sheet = openFile (filepath);
         if(fileType.equalsIgnoreCase ("logs")) {
             List <UserLogs> data = new ArrayList<> ();
