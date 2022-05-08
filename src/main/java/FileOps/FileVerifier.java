@@ -32,7 +32,6 @@ public class FileVerifier {
         Sheet sheet = workbook.getSheetAt (0);
         if(fileType.equalsIgnoreCase ("grades")){
             for(Row row : sheet){
-                System.out.println ("Here" + row.getPhysicalNumberOfCells ());
                 if(row.getPhysicalNumberOfCells () != 2){
                     return false;
                 }
@@ -51,7 +50,6 @@ public class FileVerifier {
         System.out.println ("Enter what kind of file you are loading: logs or grades?");
         String fileType = scanner.nextLine ();
         FileDataReader.setFileType (fileType);
-        System.out.println (checkFileFormatting (filePath, fileType));
         return checkFilePath (filePath) && checkExtension (filePath) && checkFileFormatting (filePath, fileType);
     }
 }

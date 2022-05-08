@@ -39,7 +39,6 @@ public class Tendency
     public void getPearsonCoef(String filepath, String recordFilePath) throws IOException, ParseException {
         FileDataReader fileDataReader = new FileDataReader ();
         List<Grades> data = fileDataReader.readAllDataFromFile (filepath);
-        Scanner sc;
         int recordNumber = 0;
         int recordsSize = data.size ();
         int[] studentNumbers = new int[recordsSize];
