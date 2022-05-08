@@ -31,9 +31,6 @@ public class FileDataReader {
             for (Row row : sheet) {
                 data.add ( setLogsObject (row));
             }
-            for (UserLogs log : data){
-                System.out.println (log.getDate ());
-            }
             return data;
         }else if(fileType.equalsIgnoreCase ("grades")){
             List <Grades> data = new ArrayList<> ();

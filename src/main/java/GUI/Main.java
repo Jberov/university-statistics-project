@@ -1,6 +1,7 @@
 package GUI;
 
-import FileOps.FileDataReader;
+import FrequencyAnalysis.FrequencyAnalyzer;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -15,52 +16,62 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException, ParseException {
         System.out.println ("Hello, and welcome to the Intelligent system for student participation and success data analysis.");
-        if (isLoginSuccessful ()) {
-            loadFiles();
-            while (true) {
-                switch (startingMenu ()) {
-                    case 0:
-                        System.out.println ("\nLogging out.");
-                        return;
-                    case 1:
-                        switch (condenseMenu ()) {
-                            case 0:
-                                break;
-                            case 1:
-                                //Find average grade
-                                break;
-                            case 2:
-                                //Count all students
-                                break;
-                            default:
-                                System.out.println ("Wrong choice: ");
-                                break;
-                        }
-                        break;
-                    case 2:
-                        //Frequency analysis
-                        break;
-                    case 3:
-                        //Condense data
-                        break;
-                    case 4:
-                        //Tendency
-                        break;
-                    case 5:
-                        //Dispersion analysis
-                        break;
-                    case 6:
-                        //Correlational analysis
-                        break;
-                    default:
-                        System.out.println ("Invalid choice. Please enter the digit in front of the desired command");
-                        break;
+        int loginCounter = 0;
+        while(true) {
+            if (isLoginSuccessful ()) {
+                loadFiles ();
+                while (true) {
+                    switch (startingMenu ()) {
+                        case 0:
+                            System.out.println ("\nLogging out.");
+                            return;
+                        case 1:
+                            switch (condenseMenu ()) {
+                                case 0:
+                                    break;
+                                case 1:
+                                    //Find average grade
+                                    break;
+                                case 2:
+                                    //Count all students
+                                    break;
+                                default:
+                                    System.out.println ("Wrong choice: ");
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            scanner.nextLine ();
+                            FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer ();
+                            System.out.println ("Enter file name");
+                            String filepath = scanner.nextLine ();
+                            frequencyAnalyzer.frequencyReport (filepath);
+                            break;
+                        case 3:
+                            //Condense data
+                            break;
+                        case 4:
+                            //Tendency
+                            break;
+                        case 5:
+                            //Dispersion analysis
+                            break;
+                        case 6:
+                            //Correlational analysis
+                            break;
+                        default:
+                            System.out.println ("Invalid choice. Please enter the digit in front of the desired command");
+                            break;
 
+                    }
+                }
+            } else {
+                System.out.println ("Invalid password");
+                loginCounter++;
+                if (loginCounter == 3) {
+                    System.exit (401);
                 }
             }
-        }
-        else{
-            System.out.println ("Invalid password");
         }
     }
 

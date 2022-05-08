@@ -5,6 +5,8 @@ import FileOps.FileDataReader;
 import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.util.function.Function;
@@ -19,13 +21,18 @@ public class FrequencyAnalyzer {
         Map<Integer, Integer> exerciseFrequencyCount = new HashMap<> ();
         int sumExercises = 0;
         for(int exerciseCount : studentData.values ()){
-            sumExercises += exerciseCount;
             if(exerciseFrequencyCount.containsKey (exerciseCount)){
-                exerciseFrequencyCount.replace (exerciseCount, exerciseFrequencyCount.get (exerciseCount), exerciseFrequencyCount.get (exerciseCount + 1));
+                exerciseFrequencyCount.replace (exerciseCount, exerciseFrequencyCount.get (exerciseCount), exerciseFrequencyCount.get (exerciseCount) + 1);
+
             }else{
                 exerciseFrequencyCount.put (exerciseCount, 1);
             }
         }
+
+        for(int i: exerciseFrequencyCount.values ()){
+             sumExercises += i;
+         }
+
         Set<Integer> exerciseFrequencyCountKeySet = exerciseFrequencyCount.keySet ();
         Iterator<Integer> iterator = exerciseFrequencyCountKeySet.iterator ();
 
@@ -34,7 +41,7 @@ public class FrequencyAnalyzer {
         System.out.println ("| Count uploaded exercises | Absolute frequency | Relative frequency |");
         while(iterator.hasNext ()){
             int i = iterator.next ();
-            System.out.println ("|          " + i + "          |" + "          " + exerciseFrequencyCount.get (i) + "         |" + "          " + findRelativeFrequency (i, (double) exerciseFrequencyCount.get (i)) + "%         |");
+            System.out.println ("|          " + i + "               |" + "          " + exerciseFrequencyCount.get (i) + "         |" + "          " + findRelativeFrequency ((double) sumExercises, (double) exerciseFrequencyCount.get (i)) + "%  |");
         }
         System.out.println ("----------------------------------------------------------------------");
     }
@@ -54,7 +61,7 @@ public class FrequencyAnalyzer {
                         submissionData.put (studentID, 1);
                     }
                 }else if(log.getDescription ().contains ("uploaded")){
-                    int fileCount = Integer.parseInt (log.getDescription ().split ("file/s")[1].split ("\\s")[0]);
+                    int fileCount = Integer.parseInt (log.getDescription ().split ("uploaded")[1].split ("\\s")[1].replace ("'",""));
                     if(submissionData.containsKey (studentID)){
                         submissionData.replace (studentID, submissionData.get (studentID), submissionData.get (studentID) + fileCount);
                     }else{
@@ -67,7 +74,7 @@ public class FrequencyAnalyzer {
     }
 
     private double findRelativeFrequency(double size, double value){
-        return value/size * 100;
+        return Math.round (value/size * 100);
     }
 
     private boolean contextIsExercise(List<UserLogs> logsData, int i){
