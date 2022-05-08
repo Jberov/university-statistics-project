@@ -3,6 +3,8 @@ package GUI;
 import Entities.Grades;
 import FileOps.FileDataReader;
 import FrequencyAnalysis.FrequencyAnalyzer;
+import CondenseOps.AverageGrades;
+import CondenseOps.TotalGradedStudents;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -32,9 +34,13 @@ public class Main {
                                 case 0:
                                     break;
                                 case 1:
+                                    AverageGrades averageGrades = new AverageGrades();
+                                    averageGrades.averageGradesReport();
                                     //Find average grade
                                     break;
                                 case 2:
+                                    TotalGradedStudents totalGradedStudents = new TotalGradedStudents();
+                                    totalGradedStudents.totalGradedStudentsReport();
                                     //Count all students
                                     break;
                                 default:
