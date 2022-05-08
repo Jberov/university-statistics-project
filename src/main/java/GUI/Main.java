@@ -51,20 +51,19 @@ public class Main {
                             frequencyAnalyzer.frequencyReport (filepath);
                             break;
                         case 3:
-                            //Condense data
+                            scanner.nextLine ();
+                            System.out.println ("Enter grades file path:");
+                            String gradesFilePath = scanner.nextLine ();
+                            System.out.println ("Enter records file path:");
+                            String recordsFilePath = scanner.nextLine ();
+                            Tendency tendency = new Tendency ();
+                            tendency.tendencyCalc(gradesFilePath);
+                            tendency.getPearsonCoef(gradesFilePath, recordsFilePath);
                             break;
                         case 4:
-                            scanner.nextLine ();
-                            System.out.println ("Enter csv file path:");
-                            String csvFilePath = scanner.nextLine ();
-                            Tendency tendency = new Tendency ();
-                            tendency.tendencyCalc(csvFilePath);
-                            tendency.getPearsonCoef();
-                            break;
-                        case 5:
                             //Dispersion analysis
                             break;
-                        case 6:
+                        case 5:
                             //Correlational analysis
                             break;
                         default:
@@ -104,10 +103,9 @@ public class Main {
         System.out.println ("\n0.Exit.");
         System.out.println ("\n1.Condense all grade data.");
         System.out.println ("\n2.Frequency analysis of student participation data");
-        System.out.println ("\n3.Condense all students grade data.");
-        System.out.println ("\n4.Discover tendency of uploaded exercises from a student participation data file.");
-        System.out.println ("\n5.Dispersion analysis of uploaded exercises from a student participation data file.");
-        System.out.println ("\n6.Correlational analysis of uploaded files from a student participation data file.");
+        System.out.println ("\n3.Discover tendency of uploaded exercises from a student participation data file.");
+        System.out.println ("\n4.Dispersion analysis of uploaded exercises from a student participation data file.");
+        System.out.println ("\n5.Correlational analysis of uploaded files from a student participation data file.");
         return scanner.nextInt ();
     }
 

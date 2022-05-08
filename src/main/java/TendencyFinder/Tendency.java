@@ -1,38 +1,34 @@
 package TendencyFinder;
 
+import Entities.Grades;
+import Entities.UserLogs;
+import FileOps.FileDataReader;
+
 import java.io.* ;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Tendency
 {
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-    public double[] tendencyCalc(String csvFilepath)
-    {
-        Scanner sc;
+    public double[] tendencyCalc(String csvFilepath) throws IOException, ParseException {
+        FileDataReader fileDataReader = new FileDataReader ();
+        List<Grades> data = fileDataReader.readAllDataFromFile (csvFilepath);
         int recordNumber = 0;
-        int recordsSize = getRecordsNumberInCSV(csvFilepath, 2);
+        int recordsSize = data.size ();
         int[] studentNumbers = new int[recordsSize];
         double[] studentMarks = new double[recordsSize];
         double[] results = new double[3];
-        try {
-            sc = new Scanner(new File("..\\cfg\\Course A_StudentsResults_Year_1.csv"));
-        } catch (FileNotFoundException e) {
-            System.out.println("Data file Course A_StudentsResults_Year_1.csv not found.");
-            return results;
-        }
-        sc.useDelimiter(",|\n");
-        sc.next();
-        sc.next();
-        while (sc.hasNext())
-        {
-            studentNumbers[recordNumber] = Integer.parseInt(sc.next());
-            studentMarks[recordNumber] = Double.parseDouble(sc.next());
+
+        for (Grades grade : data) {
+            studentNumbers[recordNumber] = Integer.parseInt (grade.getId ());
+            studentMarks[recordNumber] = grade.getGrade ();
             recordNumber++;
         }
-        sc.close();
         results[0] = getAverage(studentMarks, recordsSize);
         results[1] = getMedian(studentMarks, recordsSize);
         results[2] = getMode(studentMarks, recordsSize);
@@ -40,57 +36,33 @@ public class Tendency
                 "\n Median of marks records: " + df.format(results[1]) + "\n Mode of mark records: " + df.format(results[2]) + "\n");
         return results;
     }
-    public void getPearsonCoef()
-    {
+    public void getPearsonCoef(String filepath, String recordFilePath) throws IOException, ParseException {
+        FileDataReader fileDataReader = new FileDataReader ();
+        List<Grades> data = fileDataReader.readAllDataFromFile (filepath);
         Scanner sc;
         int recordNumber = 0;
-        int recordsSize = getRecordsNumberInCSV("..\\cfg\\Course A_StudentsResults_Year_1.csv", 2);
+        int recordsSize = data.size ();
         int[] studentNumbers = new int[recordsSize];
         double[] studentMarks = new double[recordsSize];
         int studentId = 0;
         boolean IDFound = false;
         int NumberOfActvRec = 0;
-        try {
-            sc = new Scanner(new File("..\\cfg\\Course A_StudentsResults_Year_1.csv"));
-        } catch (FileNotFoundException e) {
-            System.out.println("Data file Course A_StudentsResults_Year_1.csv not found.");
-            return;
-        }
-        sc.useDelimiter(",|\n");
-        sc.next();
-        sc.next();
-        while (sc.hasNext())
+
+        for (Grades grade : data)
         {
-            studentNumbers[recordNumber] = Integer.parseInt(sc.next());
-            studentMarks[recordNumber] = Double.parseDouble(sc.next());
+            studentNumbers[recordNumber] = Integer.parseInt(grade.getId ());
+            studentMarks[recordNumber] = grade.getGrade ();
             recordNumber++;
         }
-        sc.close();
-        NumberOfActvRec = getRecordsNumberInCSV("..\\cfg\\Logs_Course A_StudentsActivities.csv", 5);
+        NumberOfActvRec = fileDataReader.readAllDataFromFile (recordFilePath).size ();
         String[] activity = new String[NumberOfActvRec];
         String[] descritpion = new String[NumberOfActvRec];
         int activityRcrdCnt = 0;
         int uploadedFilesViaStudent = 0;
-        try {
-            sc = new Scanner(new File("..\\cfg\\Logs_Course A_StudentsActivities.csv"));
-        } catch (FileNotFoundException e) {
-            System.out.println("Data file Logs_Course A_StudentsActivities.csv not found.");
-            return;
-        }
-        sc.useDelimiter(",|\n");
-        sc.next();
-        sc.next();
-        sc.next();
-        sc.next();
-        sc.next();
-        while(sc.hasNext())
-        {
-            sc.next();
-            sc.next();
-            sc.next();
-            sc.next();
-            activity[activityRcrdCnt] = sc.next();
-            descritpion[activityRcrdCnt] = sc.next();
+        List<UserLogs> userData = fileDataReader.readAllDataFromFile (recordFilePath);
+        for (UserLogs user : userData ){
+            activity[activityRcrdCnt] = user.getEventName ();
+            descritpion[activityRcrdCnt] = user.getDescription ();
             activityRcrdCnt++;
         }
         System.out.println("Enter student ID for which to get data.");
@@ -106,7 +78,7 @@ public class Tendency
         }
         if(!IDFound)
         {
-            System.out.println("Selected ID not found, please selecte valid one.");
+            System.out.println("Selected ID not found, please select valid one.");
             return;
         }
         for (int i = 0; i < activityRcrdCnt; i++) {
@@ -115,7 +87,7 @@ public class Tendency
                 uploadedFilesViaStudent++;
             }
         }
-        System.out.println("Studnet with id " + studentId + " had uploaded " + uploadedFilesViaStudent + " files.\n");
+        System.out.println("Student with id " + studentId + " had uploaded " + uploadedFilesViaStudent + " files.\n");
     }
     private double getMode(double[] studentMarks, int recordsSize)
     {
