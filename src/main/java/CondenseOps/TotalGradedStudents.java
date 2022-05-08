@@ -14,9 +14,9 @@ public class TotalGradedStudents {
         System.out.println ("Enter file name");
         String filename = scan.nextLine ();
 
-        double totalGradedStudents = calculateTotalGradedStudents(filename);
+        int totalGradedStudents = calculateTotalGradedStudents(filename);
 
-        System.out.println("Average grade of all students: " + totalGradedStudents);
+        System.out.println("Total graded students: " + totalGradedStudents);
     }
 
     public int calculateTotalGradedStudents(String filepath) throws IOException, ParseException {
