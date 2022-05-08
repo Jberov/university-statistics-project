@@ -1,5 +1,7 @@
 package GUI;
 
+import Entities.Grades;
+import FileOps.FileDataReader;
 import FrequencyAnalysis.FrequencyAnalyzer;
 
 import java.io.IOException;

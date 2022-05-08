@@ -58,7 +58,7 @@ public class FileDataReader {
 
     private Grades setGradesEntry( Row row){
         Grades grades = new Grades ();
-        grades.setId (row.getCell (0).getStringCellValue ());
+        grades.setId (String.valueOf (row.getCell (0).getNumericCellValue ()));
         grades.setGrade (row.getCell (1).getNumericCellValue ());
         return grades;
     }
