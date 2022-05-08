@@ -1,12 +1,10 @@
 package GUI;
 
-import Entities.Grades;
-import FileOps.FileDataReader;
 import FrequencyAnalysis.FrequencyAnalyzer;
+import TendencyFinder.Tendency;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +19,6 @@ public class Main {
         int loginCounter = 0;
         while(true) {
             if (isLoginSuccessful ()) {
-                loadFiles ();
                 while (true) {
                     switch (startingMenu ()) {
                         case 0:
@@ -53,7 +50,12 @@ public class Main {
                             //Condense data
                             break;
                         case 4:
-                            //Tendency
+                            scanner.nextLine ();
+                            System.out.println ("Enter csv file path:");
+                            String csvFilePath = scanner.nextLine ();
+                            Tendency tendency = new Tendency ();
+                            tendency.tendencyCalc(csvFilePath);
+                            tendency.getPearsonCoef();
                             break;
                         case 5:
                             //Dispersion analysis
@@ -111,17 +113,5 @@ public class Main {
         System.out.println ("\n1.Average grade.");
         System.out.println ("\n2.Number of grades");
         return scanner.nextInt ();
-    }
-
-    private static void loadFiles() throws IOException {
-
-    }
-    private static void visualizeFrequencyAnalysisTable(List<Object> data){
-        System.out.println ("Count of student participation data " + "\t" + "|" + "\t" + "Absolute frequency" + "\t" + "|" + "\t" + "Relative frequency");
-        for(Object student : data){
-            System.out.println (student + "\t" + "|" + "\t" + student + "\t" + "|" + "\t" + student);
-        }
-        System.out.println ("Total" + "\t" + "|" + "\t" + data.size () + "\t" + "|" + "\t" + "100%");
-
     }
 }
