@@ -2,6 +2,8 @@ package GUI;
 
 import FrequencyAnalysis.FrequencyAnalyzer;
 import TendencyFinder.Tendency;
+import CondenseOps.AverageGrades;
+import CondenseOps.TotalGradedStudents;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -29,10 +31,12 @@ public class Main {
                                 case 0:
                                     break;
                                 case 1:
-                                    //Find average grade
+                                    AverageGrades averageGrades = new AverageGrades();
+                                    averageGrades.averageGradesReport();
                                     break;
                                 case 2:
-                                    //Count all students
+                                    TotalGradedStudents totalGradedStudents = new TotalGradedStudents();
+                                    totalGradedStudents.totalGradedStudentsReport();
                                     break;
                                 default:
                                     System.out.println ("Wrong choice: ");
