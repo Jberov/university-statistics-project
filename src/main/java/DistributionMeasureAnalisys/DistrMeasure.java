@@ -5,18 +5,17 @@ import FileOps.FileDataReader;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class DistrMeasure {
-    public void averageGradesReport() throws IOException, ParseException {
+    public void distributionAnalysisReport() throws IOException, ParseException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter file name");
         String filename = scan.nextLine();
-
         Map<String, Integer> idUploadedFilesMap = getSubmissionDataForUploadedFiles(filename);
+
+        int distributionResult = getDataRange(idUploadedFilesMap);
+        System.out.println("Distribution analysis of uploaded exercises: " + distributionResult);
     }
 
     public HashMap<String, Integer> getSubmissionDataForUploadedFiles(String filepath) throws IOException, ParseException {
@@ -48,8 +47,27 @@ public class DistrMeasure {
     }
 
     public int getDataRange(Map<String, Integer> idUploadedFilesMap) {
-        //TODO: distribution range
-        return 0;
+        int dataRangeResult = 0;
+        int maxValue = 0;
+        int minValue = 0;
+        int maxValueInMap = (Collections.max(idUploadedFilesMap.values()));
+        int minValueInMap = (Collections.min(idUploadedFilesMap.values()));
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            if (entry.getValue() == maxValueInMap) {
+                maxValue = entry.getValue();
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            if (entry.getValue() == minValueInMap) {
+                minValue = entry.getValue();
+            }
+        }
+
+        dataRangeResult = maxValue - minValue;
+
+        return dataRangeResult;
     }
 
     private boolean contextIsExercise(List<UserLogs> logsData, int i){
