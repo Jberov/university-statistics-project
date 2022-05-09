@@ -1,5 +1,6 @@
 package GUI;
 
+import DistributionMeasureAnalisys.DistrMeasure;
 import FrequencyAnalysis.FrequencyAnalyzer;
 import TendencyFinder.Tendency;
 import CondenseOps.AverageGrades;
@@ -61,7 +62,8 @@ public class Main {
                             tendency.getPearsonCoef(gradesFilePath, recordsFilePath);
                             break;
                         case 4:
-                            //Dispersion analysis
+                            DistrMeasure distrMeasure = new DistrMeasure();
+                            distrMeasure.distributionAnalysisReport();
                             break;
                         case 5:
                             //Correlational analysis
