@@ -16,6 +16,7 @@ public class DistrMeasure {
 
         int distributionResult = getDataRange(idUploadedFilesMap);
         System.out.println("Distribution analysis of uploaded exercises: " + distributionResult);
+        System.out.println();
     }
 
     public HashMap<String, Integer> getSubmissionDataForUploadedFiles(String filepath) throws IOException, ParseException {
@@ -23,9 +24,9 @@ public class DistrMeasure {
         String studentID;
         HashMap<String, Integer> submissionData = new HashMap<>();
         List<UserLogs> logsData =  reader.readAllDataFromFile(filepath);
-        for(int i = 0; i < logsData.size (); i++){
-            if(contextIsExercise(logsData, i) && componentIsFileUpload(logsData, i)){
-                UserLogs log = logsData.get(i);
+        for(int index = 0; index < logsData.size (); index++){
+            if(contextIsExercise(logsData, index) && componentIsFileUpload(logsData, index)){
+                UserLogs log = logsData.get(index);
                 studentID = log.getDescription().split("\\s")[4].replace("'","");
                 if(log.getDescription().contains("uploaded a file") || log.getDescription().contains("uploaded '1' file/s")){
                     if(submissionData.containsKey(studentID)){
@@ -47,7 +48,7 @@ public class DistrMeasure {
     }
 
     public int getDataRange(Map<String, Integer> idUploadedFilesMap) {
-        int dataRangeResult = 0;
+        int dataRangeResult;
         int maxValue = 0;
         int minValue = 0;
         int maxValueInMap = (Collections.max(idUploadedFilesMap.values()));

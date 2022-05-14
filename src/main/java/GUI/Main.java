@@ -17,7 +17,7 @@ public class Main {
 
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException {
         System.out.println ("Hello, and welcome to the Intelligent system for student participation and success data analysis.");
         int loginCounter = 0;
         while(true) {

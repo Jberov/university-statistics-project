@@ -65,7 +65,7 @@ public class FileDataReader {
 
     private Sheet openFile(String filepath) throws IOException {
         if(!fileVerifier.verifyFile (filepath)){
-            throw new IOException ("Invalid file or non-existant file");
+            throw new IOException ("Invalid file or non-existent file");
         }
         FileInputStream file = new FileInputStream (filepath);
         Workbook workbook = new XSSFWorkbook (file);

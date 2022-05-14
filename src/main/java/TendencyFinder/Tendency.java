@@ -39,14 +39,13 @@ public class Tendency
     public void getPearsonCoef(String filepath, String recordFilePath) throws IOException, ParseException {
         FileDataReader fileDataReader = new FileDataReader ();
         List<Grades> data = fileDataReader.readAllDataFromFile (filepath);
-        Scanner sc;
         int recordNumber = 0;
         int recordsSize = data.size ();
         int[] studentNumbers = new int[recordsSize];
         double[] studentMarks = new double[recordsSize];
-        int studentId = 0;
+        int studentId;
         boolean IDFound = false;
-        int NumberOfActvRec = 0;
+        int NumberOfActvRec;
 
         for (Grades grade : data)
         {
@@ -56,13 +55,13 @@ public class Tendency
         }
         NumberOfActvRec = fileDataReader.readAllDataFromFile (recordFilePath).size ();
         String[] activity = new String[NumberOfActvRec];
-        String[] descritpion = new String[NumberOfActvRec];
+        String[] description = new String[NumberOfActvRec];
         int activityRcrdCnt = 0;
         int uploadedFilesViaStudent = 0;
         List<UserLogs> userData = fileDataReader.readAllDataFromFile (recordFilePath);
         for (UserLogs user : userData ){
             activity[activityRcrdCnt] = user.getEventName ();
-            descritpion[activityRcrdCnt] = user.getDescription ();
+            description[activityRcrdCnt] = user.getDescription ();
             activityRcrdCnt++;
         }
         System.out.println("Enter student ID for which to get data.");
@@ -70,10 +69,10 @@ public class Tendency
         studentId = Integer.parseInt(myObj.nextLine());
         myObj.close();
 
-        for (int i : studentNumbers) {
-            if( i == studentId)
-            {
+        for (int index : studentNumbers) {
+            if (index == studentId) {
                 IDFound = true;
+                break;
             }
         }
         if(!IDFound)
@@ -81,8 +80,8 @@ public class Tendency
             System.out.println("Selected ID not found, please select valid one.");
             return;
         }
-        for (int i = 0; i < activityRcrdCnt; i++) {
-            if((descritpion[i].contains(Integer.toString(studentId))) && (activity[i].equals("A file has been uploaded.")))
+        for (int index = 0; index < activityRcrdCnt; index++) {
+            if((description[index].contains(Integer.toString(studentId))) && (activity[index].equals("A file has been uploaded.")))
             {
                 uploadedFilesViaStudent++;
             }
@@ -92,14 +91,14 @@ public class Tendency
     private double getMode(double[] studentMarks, int recordsSize)
     {
         double resL = 0;
-        int maxCount = 0, i, j;
+        int maxCount = 0, index, secondIndex;
 
-        for (i = 0; i < recordsSize; ++i)
+        for (index = 0; index < recordsSize; ++index)
         {
             int count = 0;
-            for (j = 0; j < recordsSize; ++j)
+            for (secondIndex = 0; secondIndex < recordsSize; ++secondIndex)
             {
-                if(studentMarks[j] == studentMarks[i])
+                if(studentMarks[secondIndex] == studentMarks[secondIndex])
                 {
                     ++count;
                 }
@@ -107,7 +106,7 @@ public class Tendency
 
             if (count > maxCount) {
                 maxCount = count;
-                resL = studentMarks[i];
+                resL = studentMarks[index];
             }
         }
 
@@ -116,7 +115,7 @@ public class Tendency
 
     private double getMedian(double[] studentMarks, int recordsSize)
     {
-        double resL = 0;
+        double resL;
         Arrays.sort(studentMarks);
         if(recordsSize%2 == 0)
         {
@@ -131,7 +130,7 @@ public class Tendency
 
     private double getAverage(double[] studentMarks, int recordsSize)
     {
-        double resL = 0;
+        double resL;
         double sumOfMarks = 0;
         for (double d : studentMarks) {
             sumOfMarks += d;
@@ -150,7 +149,7 @@ public class Tendency
             return 0;
         }
         sc.useDelimiter(",|\n");
-        for (int i = 0; i < RecordsOnRow; i++) {
+        for (int index = 0; index < RecordsOnRow; index++) {
             sc.next();
         }
         if(5 == RecordsOnRow)
@@ -159,7 +158,7 @@ public class Tendency
         }
         while(sc.hasNext())
         {
-            for (int i = 0; i < RecordsOnRow; i++) {
+            for (int index = 0; index < RecordsOnRow; index++) {
                 sc.next();
             }
             resL+=1;
