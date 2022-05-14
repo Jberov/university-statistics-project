@@ -20,6 +20,7 @@ public class FrequencyAnalyzer {
         Map<String, Integer> studentData = findAbsoluteFrequency (filepath);
         Map<Integer, Integer> exerciseFrequencyCount = new HashMap<> ();
         int sumExercises = 0;
+
         for(int exerciseCount : studentData.values ()){
             if(exerciseFrequencyCount.containsKey (exerciseCount)){
                 exerciseFrequencyCount.replace (exerciseCount, exerciseFrequencyCount.get (exerciseCount), exerciseFrequencyCount.get (exerciseCount) + 1);
@@ -51,6 +52,7 @@ public class FrequencyAnalyzer {
         String studentID;
         HashMap<String, Integer> submissionData = new HashMap<> ();
         List<UserLogs> logsData =  reader.readAllDataFromFile (filepath);
+
         for(int index = 0; index < logsData.size (); index++){
             if(contextIsExercise (logsData, index) && componentIsFileUpload (logsData, index)){
                 UserLogs log = logsData.get (index);

@@ -32,6 +32,7 @@ public class Tendency
         results[0] = getAverage(studentMarks, recordsSize);
         results[1] = getMedian(studentMarks, recordsSize);
         results[2] = getMode(studentMarks, recordsSize);
+
         System.out.println(" Central tangency: " + df.format(results[0]) + "\n Average mark: " + df.format(results[0]) +
                 "\n Median of marks records: " + df.format(results[1]) + "\n Mode of mark records: " + df.format(results[2]) + "\n");
         return results;
@@ -59,6 +60,7 @@ public class Tendency
         int activityRcrdCnt = 0;
         int uploadedFilesViaStudent = 0;
         List<UserLogs> userData = fileDataReader.readAllDataFromFile (recordFilePath);
+
         for (UserLogs user : userData ){
             activity[activityRcrdCnt] = user.getEventName ();
             description[activityRcrdCnt] = user.getDescription ();
@@ -116,6 +118,7 @@ public class Tendency
     private double getMedian(double[] studentMarks, int recordsSize)
     {
         double resL;
+
         Arrays.sort(studentMarks);
         if(recordsSize%2 == 0)
         {
@@ -132,6 +135,7 @@ public class Tendency
     {
         double resL;
         double sumOfMarks = 0;
+
         for (double d : studentMarks) {
             sumOfMarks += d;
         }
@@ -143,6 +147,7 @@ public class Tendency
     {
         int resL = 0;
         Scanner sc;
+
         try {
             sc = new Scanner(new File(path));
         } catch (FileNotFoundException e) {

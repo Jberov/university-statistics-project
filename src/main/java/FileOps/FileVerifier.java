@@ -16,6 +16,7 @@ public class FileVerifier {
 
     private boolean checkFilePath(String filepath) throws FileNotFoundException {
         File file = new File (filepath);
+
         if(!file.exists () || !file.isFile () ){
             throw new FileNotFoundException ("No such file");
         }
@@ -30,13 +31,16 @@ public class FileVerifier {
         FileInputStream file = new FileInputStream (fileLocation);
         Workbook workbook = new XSSFWorkbook (file);
         Sheet sheet = workbook.getSheetAt (0);
-        if(fileType.equalsIgnoreCase ("grades")){
+
+        if (fileType.equalsIgnoreCase ("grades")){
             for(Row row : sheet){
                 if(row.getPhysicalNumberOfCells () != 2){
                     return false;
                 }
             }
-        }else if(fileType.equalsIgnoreCase ("logs")){
+        }
+
+        if (fileType.equalsIgnoreCase ("logs")){
             for(Row row : sheet){
                 if(row.getPhysicalNumberOfCells () != 5){
                     return false;

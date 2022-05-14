@@ -20,8 +20,17 @@ public class Main {
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println ("Hello, and welcome to the Intelligent system for student participation and success data analysis.");
         int loginCounter = 0;
+
         while(true) {
-            if (isLoginSuccessful ()) {
+            if (!isLoginSuccessful()) {
+                System.out.println ("Invalid password");
+                loginCounter++;
+                if (loginCounter == 3) {
+                    System.exit (401);
+                }
+            }
+
+            if (isLoginSuccessful()) {
                 while (true) {
                     switch (startingMenu ()) {
                         case 0:
@@ -74,28 +83,27 @@ public class Main {
 
                     }
                 }
-            } else {
-                System.out.println ("Invalid password");
-                loginCounter++;
-                if (loginCounter == 3) {
-                    System.exit (401);
-                }
             }
         }
     }
 
     private static boolean isLoginSuccessful() {
         String pass;
+
         while (true) {
             System.out.println ("\nPlease, enter your provided password: ");
             pass = scanner.nextLine ();
+
             if (pass.equals ("D782000b")) {
                 System.out.println ("\nLogin successful. You may proceed");
                 return true;
-            } else if (pass.equalsIgnoreCase ("exit")) {
+            }
+
+            if (pass.equalsIgnoreCase ("exit")) {
                 System.out.println ("\nGoodbye");
                 return false;
             }
+
             System.out.println ("\nWrong password. If you wish to continue, please enter correct pass. Otherwise, enter \"exit\" to exit the system");
         }
     }

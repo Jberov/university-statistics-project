@@ -13,8 +13,8 @@ public class DistrMeasure {
         System.out.println("Enter file name");
         String filename = scan.nextLine();
         Map<String, Integer> idUploadedFilesMap = getSubmissionDataForUploadedFiles(filename);
-
         int distributionResult = getDataRange(idUploadedFilesMap);
+
         System.out.println("Distribution analysis of uploaded exercises: " + distributionResult);
         System.out.println();
     }
@@ -24,6 +24,7 @@ public class DistrMeasure {
         String studentID;
         HashMap<String, Integer> submissionData = new HashMap<>();
         List<UserLogs> logsData =  reader.readAllDataFromFile(filepath);
+
         for(int index = 0; index < logsData.size (); index++){
             if(contextIsExercise(logsData, index) && componentIsFileUpload(logsData, index)){
                 UserLogs log = logsData.get(index);
