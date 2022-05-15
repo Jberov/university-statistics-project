@@ -14,8 +14,10 @@ public class DistrMeasure {
         String filename = scan.nextLine();
         Map<String, Integer> idUploadedFilesMap = getSubmissionDataForUploadedFiles(filename);
         int distributionResult = getDataRange(idUploadedFilesMap);
+        double varianceResult = getVariance(idUploadedFilesMap);
 
         System.out.println("Distribution analysis of uploaded exercises: " + distributionResult);
+        System.out.println("Variance analysis of uploaded exercises: " + varianceResult);
         System.out.println();
     }
 
@@ -70,12 +72,28 @@ public class DistrMeasure {
         dataRangeResult = maxValue - minValue;
 
         return dataRangeResult;
+    } 
+
+    public double getVariance(Map<String, Integer> idUploadedFilesMap) {
+        double averageCountOfUploadedFiles, sumOfAllUploadedFiles = 0, sumOfSquares = 0.0;
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            sumOfAllUploadedFiles += entry.getValue();
+        }
+
+        averageCountOfUploadedFiles = sumOfAllUploadedFiles / idUploadedFilesMap.size();
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            sumOfSquares = Math.pow((entry.getValue() - averageCountOfUploadedFiles), 2);
+        }
+
+        return sumOfSquares / idUploadedFilesMap.size();
     }
 
-    private boolean contextIsExercise(List<UserLogs> logsData, int i){
-        return logsData.get (i).getContext ().contains ("Assignment: Качване на Упр.");
+    private boolean contextIsExercise(List<UserLogs> logsData, int index){
+        return logsData.get (index).getContext ().contains ("Assignment: Качване на Упр.");
     }
-    private boolean componentIsFileUpload(List<UserLogs> logsData, int i){
-        return logsData.get (i).getComponent ().contains ("File submissions");
+    private boolean componentIsFileUpload(List<UserLogs> logsData, int index){
+        return logsData.get (index).getComponent ().contains ("File submissions");
     }
 }

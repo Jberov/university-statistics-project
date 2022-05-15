@@ -48,8 +48,7 @@ public class Tendency
         boolean IDFound = false;
         int NumberOfActvRec;
 
-        for (Grades grade : data)
-        {
+        for (Grades grade : data) {
             studentNumbers[recordNumber] = Integer.parseInt(grade.getId ());
             studentMarks[recordNumber] = grade.getGrade ();
             recordNumber++;
@@ -83,8 +82,7 @@ public class Tendency
             return;
         }
         for (int index = 0; index < activityRcrdCnt; index++) {
-            if((description[index].contains(Integer.toString(studentId))) && (activity[index].equals("A file has been uploaded.")))
-            {
+            if((description[index].contains(Integer.toString(studentId))) && (activity[index].equals("A file has been uploaded."))) {
                 uploadedFilesViaStudent++;
             }
         }
@@ -98,10 +96,8 @@ public class Tendency
         for (index = 0; index < recordsSize; ++index)
         {
             int count = 0;
-            for (secondIndex = 0; secondIndex < recordsSize; ++secondIndex)
-            {
-                if(studentMarks[secondIndex] == studentMarks[secondIndex])
-                {
+            for (secondIndex = 0; secondIndex < recordsSize; ++secondIndex) {
+                if(studentMarks[secondIndex] == studentMarks[secondIndex]) {
                     ++count;
                 }
             }
@@ -120,12 +116,10 @@ public class Tendency
         double resL;
 
         Arrays.sort(studentMarks);
-        if(recordsSize%2 == 0)
-        {
+        if(recordsSize%2 == 0) {
             resL = ((studentMarks[(recordsSize/2)] + studentMarks[(recordsSize/2)+1])/2);
         }
-        else
-        {
+        else {
             resL = studentMarks[recordsSize];
         }
         return resL;
@@ -157,12 +151,10 @@ public class Tendency
         for (int index = 0; index < RecordsOnRow; index++) {
             sc.next();
         }
-        if(5 == RecordsOnRow)
-        {
+        if(5 == RecordsOnRow) {
             RecordsOnRow+=1;
         }
-        while(sc.hasNext())
-        {
+        while(sc.hasNext()) {
             for (int index = 0; index < RecordsOnRow; index++) {
                 sc.next();
             }
