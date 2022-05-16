@@ -10,38 +10,34 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
 
 public class FileDataReader {
 
     private final FileVerifier fileVerifier = new FileVerifier();
 
-    public static void setFileType(String fileType) {
-        FileDataReader.fileType = fileType;
-    }
-
-    private static String fileType;
 
     public List readAllDataFromFile(String filepath) throws IOException, ParseException {
         Sheet sheet = openFile (filepath);
-        if(fileType.equalsIgnoreCase ("logs")) {
-            List <UserLogs> data = new ArrayList<> ();
-            Row header =  sheet.getRow (0);
+        if (sheet.getRow (0).getPhysicalNumberOfCells () == 5) {
+            List<UserLogs> data = new ArrayList<> ();
+            Row header = sheet.getRow (0);
             sheet.removeRow (header);
             for (Row row : sheet) {
-                data.add ( setLogsObject (row));
+                data.add (setLogsObject (row));
             }
             return data;
-        }else if(fileType.equalsIgnoreCase ("grades")){
-            List <Grades> data = new ArrayList<> ();
+        } else if (sheet.getRow (0).getPhysicalNumberOfCells () == 2) {
+            List<Grades> data = new ArrayList<> ();
+            Row header = sheet.getRow (0);
+            sheet.removeRow (header);
             for (Row row : sheet) {
-                if(sheet.getRow (0).equals (row)){
-                    continue;
-                }
-                data.add ( setGradesEntry (row));
+                data.add (setGradesEntry (row));
             }
             return data;
-        }else{
+        } else {
             throw new InputMismatchException ("Invalid data type");
         }
     }
@@ -56,7 +52,7 @@ public class FileDataReader {
         return logs;
     }
 
-    private Grades setGradesEntry( Row row){
+    private Grades setGradesEntry(Row row) {
         Grades grades = new Grades ();
         grades.setId (String.valueOf (row.getCell (0).getNumericCellValue ()));
         grades.setGrade (row.getCell (1).getNumericCellValue ());

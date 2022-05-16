@@ -4,7 +4,7 @@ import Entities.Grades;
 import Entities.UserLogs;
 import FileOps.FileDataReader;
 
-import java.io.* ;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -70,9 +70,9 @@ public class Tendency
         myObj.close();
 
         for (int i : studentNumbers) {
-            if( i == studentId)
-            {
+            if (i == studentId) {
                 IDFound = true;
+                break;
             }
         }
         if(!IDFound)
@@ -136,35 +136,6 @@ public class Tendency
             sumOfMarks += d;
         }
         resL = (sumOfMarks / recordsSize);
-        return resL;
-    }
-
-    private int getRecordsNumberInCSV(String path,int RecordsOnRow)
-    {
-        int resL = 0;
-        Scanner sc;
-        try {
-            sc = new Scanner(new File(path));
-        } catch (FileNotFoundException e) {
-            return 0;
-        }
-        sc.useDelimiter(",|\n");
-        for (int i = 0; i < RecordsOnRow; i++) {
-            sc.next();
-        }
-        if(5 == RecordsOnRow)
-        {
-            RecordsOnRow+=1;
-        }
-        while(sc.hasNext())
-        {
-            for (int i = 0; i < RecordsOnRow; i++) {
-                sc.next();
-            }
-            resL+=1;
-        }
-        sc.close();
-
         return resL;
     }
 }
