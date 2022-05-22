@@ -10,6 +10,7 @@ public class FileVerifier {
 
     private boolean checkFilePath(String filepath) throws FileNotFoundException {
         File file = new File (filepath);
+
         if(!file.exists () || !file.isFile () ){
             throw new FileNotFoundException ("No such file");
         }

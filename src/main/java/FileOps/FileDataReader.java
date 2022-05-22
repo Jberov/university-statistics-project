@@ -21,6 +21,7 @@ public class FileDataReader {
 
     public List readAllDataFromFile(String filepath) throws IOException, ParseException {
         Sheet sheet = openFile (filepath);
+
         if (sheet.getRow (0).getPhysicalNumberOfCells () == 5) {
             List<UserLogs> data = new ArrayList<> ();
             Row header = sheet.getRow (0);
@@ -29,6 +30,7 @@ public class FileDataReader {
                 data.add (setLogsObject (row));
             }
             return data;
+
         } else if (sheet.getRow (0).getPhysicalNumberOfCells () == 2) {
             List<Grades> data = new ArrayList<> ();
             Row header = sheet.getRow (0);
@@ -37,13 +39,16 @@ public class FileDataReader {
                 data.add (setGradesEntry (row));
             }
             return data;
+
         } else {
             throw new InputMismatchException ("Invalid data type");
         }
+        throw new InputMismatchException("Invalid data type");
     }
 
     private UserLogs setLogsObject( Row row) throws ParseException {
         UserLogs logs = new UserLogs ();
+
         logs.setDate (row.getCell (0).getStringCellValue ());
         logs.setContext (row.getCell (1).getStringCellValue ());
         logs.setComponent (row.getCell (2).getStringCellValue ());
@@ -54,6 +59,7 @@ public class FileDataReader {
 
     private Grades setGradesEntry(Row row) {
         Grades grades = new Grades ();
+
         grades.setId (String.valueOf (row.getCell (0).getNumericCellValue ()));
         grades.setGrade (row.getCell (1).getNumericCellValue ());
         return grades;
@@ -61,10 +67,12 @@ public class FileDataReader {
 
     private Sheet openFile(String filepath) throws IOException {
         if(!fileVerifier.verifyFile (filepath)){
-            throw new IOException ("Invalid file or non-existant file");
+            throw new IOException ("Invalid file or non-existent file");
         }
+
         FileInputStream file = new FileInputStream (filepath);
         Workbook workbook = new XSSFWorkbook (file);
+
         return workbook.getSheetAt (0);
     }
 }

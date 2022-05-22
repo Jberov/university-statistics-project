@@ -15,6 +15,7 @@ public class FrequencyAnalyzer {
         Map<String, Integer> studentData = findAbsoluteFrequency (filepath);
         Map<Integer, Integer> exerciseFrequencyCount = new HashMap<> ();
         int sumExercises = 0;
+
         for(int exerciseCount : studentData.values ()){
             if(exerciseFrequencyCount.containsKey (exerciseCount)){
                 exerciseFrequencyCount.replace (exerciseCount, exerciseFrequencyCount.get (exerciseCount), exerciseFrequencyCount.get (exerciseCount) + 1);
@@ -24,8 +25,8 @@ public class FrequencyAnalyzer {
             }
         }
 
-        for(int i: exerciseFrequencyCount.values ()){
-             sumExercises += i;
+        for(int index: exerciseFrequencyCount.values ()){
+             sumExercises += index;
          }
 
         Set<Integer> exerciseFrequencyCountKeySet = exerciseFrequencyCount.keySet ();
@@ -35,19 +36,21 @@ public class FrequencyAnalyzer {
         System.out.println ("----------------------------------------------------------------------");
         System.out.println ("| Count uploaded exercises | Absolute frequency | Relative frequency |");
         while(iterator.hasNext ()){
-            int i = iterator.next ();
-            System.out.println ("|          " + i + "               |" + "          " + exerciseFrequencyCount.get (i) + "         |" + "          " + findRelativeFrequency ((double) sumExercises, (double) exerciseFrequencyCount.get (i)) + "%  |");
+            int index = iterator.next ();
+            System.out.println ("|          " + index + "               |" + "          " + exerciseFrequencyCount.get (index) + "         |" + "          " + findRelativeFrequency (sumExercises, (double) exerciseFrequencyCount.get (index)) + "%  |");
         }
         System.out.println ("----------------------------------------------------------------------");
+        System.out.println();
     }
 
     private HashMap<String, Integer> findAbsoluteFrequency(String filepath) throws IOException, ParseException {
         String studentID;
         HashMap<String, Integer> submissionData = new HashMap<> ();
         List<UserLogs> logsData =  reader.readAllDataFromFile (filepath);
-        for(int i = 0; i < logsData.size (); i++){
-            if(contextIsExercise (logsData, i) && componentIsFileUpload (logsData, i)){
-                UserLogs log = logsData.get (i);
+
+        for(int index = 0; index < logsData.size (); index++){
+            if(contextIsExercise (logsData, index) && componentIsFileUpload (logsData, index)){
+                UserLogs log = logsData.get (index);
                 studentID = log.getDescription ().split ("\\s")[4].replace ("'","");
                 if(log.getDescription ().contains ("uploaded a file") || log.getDescription ().contains("uploaded '1' file/s")){
                     if(submissionData.containsKey (studentID)){

@@ -18,6 +18,7 @@ public class AverageGrades {
         double avgGrades = calculateAvgGrades(filename);
 
         System.out.println("Average grade of all students: " + avgGrades);
+        System.out.println();
     }
 
     public double calculateAvgGrades(String filepath) throws IOException, ParseException {
@@ -27,9 +28,9 @@ public class AverageGrades {
         double[] studentGrades = new double[listSize];
         double sumGrades = 0.0;
 
-        for(int i = 0; i < listSize; i++) {
-            Grades log = listWithFileData.get(i);
-            studentGrades[i] = log.getGrade();
+        for(int index = 0; index < listSize; index++) {
+            Grades log = listWithFileData.get(index);
+            studentGrades[index] = log.getGrade();
         }
         int allGrades = studentGrades.length;
 

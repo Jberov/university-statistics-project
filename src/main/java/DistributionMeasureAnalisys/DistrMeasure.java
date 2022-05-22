@@ -13,9 +13,12 @@ public class DistrMeasure {
         System.out.println("Enter file name");
         String filename = scan.nextLine();
         Map<String, Integer> idUploadedFilesMap = getSubmissionDataForUploadedFiles(filename);
-
         int distributionResult = getDataRange(idUploadedFilesMap);
+        double varianceResult = getVariance(idUploadedFilesMap);
+
         System.out.println("Distribution analysis of uploaded exercises: " + distributionResult);
+        System.out.println("Variance analysis of uploaded exercises: " + varianceResult);
+        System.out.println();
     }
 
     public HashMap<String, Integer> getSubmissionDataForUploadedFiles(String filepath) throws IOException, ParseException {
@@ -23,9 +26,10 @@ public class DistrMeasure {
         String studentID;
         HashMap<String, Integer> submissionData = new HashMap<>();
         List<UserLogs> logsData =  reader.readAllDataFromFile(filepath);
-        for(int i = 0; i < logsData.size (); i++){
-            if(contextIsExercise(logsData, i) && componentIsFileUpload(logsData, i)){
-                UserLogs log = logsData.get(i);
+
+        for(int index = 0; index < logsData.size (); index++){
+            if(contextIsExercise(logsData, index) && componentIsFileUpload(logsData, index)){
+                UserLogs log = logsData.get(index);
                 studentID = log.getDescription().split("\\s")[4].replace("'","");
                 if(log.getDescription().contains("uploaded a file") || log.getDescription().contains("uploaded '1' file/s")){
                     if(submissionData.containsKey(studentID)){
@@ -47,7 +51,7 @@ public class DistrMeasure {
     }
 
     public int getDataRange(Map<String, Integer> idUploadedFilesMap) {
-        int dataRangeResult = 0;
+        int dataRangeResult;
         int maxValue = 0;
         int minValue = 0;
         int maxValueInMap = (Collections.max(idUploadedFilesMap.values()));
@@ -68,12 +72,28 @@ public class DistrMeasure {
         dataRangeResult = maxValue - minValue;
 
         return dataRangeResult;
+    } 
+
+    public double getVariance(Map<String, Integer> idUploadedFilesMap) {
+        double averageCountOfUploadedFiles, sumOfAllUploadedFiles = 0, sumOfSquares = 0.0;
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            sumOfAllUploadedFiles += entry.getValue();
+        }
+
+        averageCountOfUploadedFiles = sumOfAllUploadedFiles / idUploadedFilesMap.size();
+
+        for (Map.Entry<String, Integer> entry : idUploadedFilesMap.entrySet()) {
+            sumOfSquares = Math.pow((entry.getValue() - averageCountOfUploadedFiles), 2);
+        }
+
+        return sumOfSquares / idUploadedFilesMap.size();
     }
 
-    private boolean contextIsExercise(List<UserLogs> logsData, int i){
-        return logsData.get (i).getContext ().contains ("Assignment: Качване на Упр.");
+    private boolean contextIsExercise(List<UserLogs> logsData, int index){
+        return logsData.get (index).getContext ().contains ("Assignment: Качване на Упр.");
     }
-    private boolean componentIsFileUpload(List<UserLogs> logsData, int i){
-        return logsData.get (i).getComponent ().contains ("File submissions");
+    private boolean componentIsFileUpload(List<UserLogs> logsData, int index){
+        return logsData.get (index).getComponent ().contains ("File submissions");
     }
 }

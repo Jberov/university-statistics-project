@@ -32,6 +32,7 @@ public class Tendency
         results[0] = getAverage(studentMarks, recordsSize);
         results[1] = getMedian(studentMarks, recordsSize);
         results[2] = getMode(studentMarks, recordsSize);
+
         System.out.println(" Central tangency: " + df.format(results[0]) + "\n Average mark: " + df.format(results[0]) +
                 "\n Median of marks records: " + df.format(results[1]) + "\n Mode of mark records: " + df.format(results[2]) + "\n");
         return results;
@@ -43,25 +44,25 @@ public class Tendency
         int recordsSize = data.size ();
         int[] studentNumbers = new int[recordsSize];
         double[] studentMarks = new double[recordsSize];
-        int studentId = 0;
+        int studentId;
         boolean IDFound = false;
-        int NumberOfActvRec = 0;
+        int NumberOfActvRec;
 
-        for (Grades grade : data)
-        {
+        for (Grades grade : data) {
             studentNumbers[recordNumber] = Integer.parseInt(grade.getId ());
             studentMarks[recordNumber] = grade.getGrade ();
             recordNumber++;
         }
         NumberOfActvRec = fileDataReader.readAllDataFromFile (recordFilePath).size ();
         String[] activity = new String[NumberOfActvRec];
-        String[] descritpion = new String[NumberOfActvRec];
+        String[] description = new String[NumberOfActvRec];
         int activityRcrdCnt = 0;
         int uploadedFilesViaStudent = 0;
         List<UserLogs> userData = fileDataReader.readAllDataFromFile (recordFilePath);
+
         for (UserLogs user : userData ){
             activity[activityRcrdCnt] = user.getEventName ();
-            descritpion[activityRcrdCnt] = user.getDescription ();
+            description[activityRcrdCnt] = user.getDescription ();
             activityRcrdCnt++;
         }
         System.out.println("Enter student ID for which to get data.");
@@ -69,8 +70,8 @@ public class Tendency
         studentId = Integer.parseInt(myObj.nextLine());
         myObj.close();
 
-        for (int i : studentNumbers) {
-            if (i == studentId) {
+        for (int index : studentNumbers) {
+            if (index == studentId) {
                 IDFound = true;
                 break;
             }
@@ -80,9 +81,8 @@ public class Tendency
             System.out.println("Selected ID not found, please select valid one.");
             return;
         }
-        for (int i = 0; i < activityRcrdCnt; i++) {
-            if((descritpion[i].contains(Integer.toString(studentId))) && (activity[i].equals("A file has been uploaded.")))
-            {
+        for (int index = 0; index < activityRcrdCnt; index++) {
+            if((description[index].contains(Integer.toString(studentId))) && (activity[index].equals("A file has been uploaded."))) {
                 uploadedFilesViaStudent++;
             }
         }
@@ -91,22 +91,20 @@ public class Tendency
     private double getMode(double[] studentMarks, int recordsSize)
     {
         double resL = 0;
-        int maxCount = 0, i, j;
+        int maxCount = 0, index, secondIndex;
 
-        for (i = 0; i < recordsSize; ++i)
+        for (index = 0; index < recordsSize; ++index)
         {
             int count = 0;
-            for (j = 0; j < recordsSize; ++j)
-            {
-                if(studentMarks[j] == studentMarks[i])
-                {
+            for (secondIndex = 0; secondIndex < recordsSize; ++secondIndex) {
+                if(studentMarks[secondIndex] == studentMarks[secondIndex]) {
                     ++count;
                 }
             }
 
             if (count > maxCount) {
                 maxCount = count;
-                resL = studentMarks[i];
+                resL = studentMarks[index];
             }
         }
 
@@ -115,14 +113,13 @@ public class Tendency
 
     private double getMedian(double[] studentMarks, int recordsSize)
     {
-        double resL = 0;
+        double resL;
+
         Arrays.sort(studentMarks);
-        if(recordsSize%2 == 0)
-        {
+        if(recordsSize%2 == 0) {
             resL = ((studentMarks[(recordsSize/2)] + studentMarks[(recordsSize/2)+1])/2);
         }
-        else
-        {
+        else {
             resL = studentMarks[recordsSize];
         }
         return resL;
@@ -130,8 +127,9 @@ public class Tendency
 
     private double getAverage(double[] studentMarks, int recordsSize)
     {
-        double resL = 0;
+        double resL;
         double sumOfMarks = 0;
+
         for (double d : studentMarks) {
             sumOfMarks += d;
         }
