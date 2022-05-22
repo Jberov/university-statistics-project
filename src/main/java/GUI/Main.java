@@ -1,10 +1,10 @@
 package GUI;
 
+import CondenseOps.AverageGrades;
+import CondenseOps.TotalGradedStudents;
 import DistributionMeasureAnalisys.DistrMeasure;
 import FrequencyAnalysis.FrequencyAnalyzer;
 import TendencyFinder.Tendency;
-import CondenseOps.AverageGrades;
-import CondenseOps.TotalGradedStudents;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,63 +21,57 @@ public class Main {
         System.out.println ("Hello, and welcome to the Intelligent system for student participation and success data analysis.");
         int loginCounter = 0;
 
-        while(true) {
-            if (!isLoginSuccessful()) {
-                System.out.println ("Invalid password");
-                loginCounter++;
-                if (loginCounter == 3) {
-                    System.exit (401);
-                }
-            }
-            while (true) {
-                switch (startingMenu ()) {
-                    case 0:
-                        System.out.println ("\nLogging out.");
-                        return;
-                    case 1:
-                        switch (condenseMenu ()) {
-                            case 0:
-                                break;
-                            case 1:
-                                AverageGrades averageGrades = new AverageGrades();
-                                averageGrades.averageGradesReport();
-                                break;
-                            case 2:
-                                TotalGradedStudents totalGradedStudents = new TotalGradedStudents();
-                                totalGradedStudents.totalGradedStudentsReport();
-                                break;
-                            default:
-                                System.out.println ("Wrong choice: ");
-                                break;
-                        }
-                        break;
-                    case 2:
-                        scanner.nextLine ();
-                        FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer ();
-                        System.out.println ("Enter file name");
-                        String filepath = scanner.nextLine ();
-                        frequencyAnalyzer.frequencyReport (filepath);
-                        break;
-                    case 3:
-                        scanner.nextLine ();
-                        System.out.println ("Enter grades file path:");
-                        String gradesFilePath = scanner.nextLine ();
-                        System.out.println ("Enter records file path:");
-                        String recordsFilePath = scanner.nextLine ();
-                        Tendency tendency = new Tendency ();
-                        tendency.tendencyCalc(gradesFilePath);
-                        tendency.getPearsonCoef(gradesFilePath, recordsFilePath);
-                        break;
-                    case 4:
-                        DistrMeasure distrMeasure = new DistrMeasure();
-                        distrMeasure.distributionAnalysisReport();
-                        break;
-                    case 5:
-                        //Correlational analysis
-                        break;
-                    default:
-                        System.out.println ("Invalid choice. Please enter the digit in front of the desired command");
-                        break;
+        while (true) {
+            if (isLoginSuccessful ()) {
+                while (true) {
+                    switch (startingMenu ()) {
+                        case 0:
+                            System.out.println ("\nLogging out.");
+                            return;
+                        case 1:
+                            switch (condenseMenu ()) {
+                                case 0:
+                                    break;
+                                case 1:
+                                    AverageGrades averageGrades = new AverageGrades();
+                                    averageGrades.averageGradesReport();
+                                    break;
+                                case 2:
+                                    TotalGradedStudents totalGradedStudents = new TotalGradedStudents();
+                                    totalGradedStudents.totalGradedStudentsReport();
+                                    break;
+                                default:
+                                    System.out.println ("Wrong choice: ");
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            scanner.nextLine ();
+                            FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer ();
+                            System.out.println ("Enter file name");
+                            String filepath = scanner.nextLine ();
+                            frequencyAnalyzer.frequencyReport (filepath);
+                            break;
+                        case 3:
+                            scanner.nextLine ();
+                            System.out.println ("Enter grades file path:");
+                            String gradesFilePath = scanner.nextLine ();
+                            System.out.println ("Enter records file path:");
+                            String recordsFilePath = scanner.nextLine ();
+                            Tendency tendency = new Tendency ();
+                            tendency.tendencyCalc(gradesFilePath);
+                            tendency.getPearsonCoef(gradesFilePath, recordsFilePath);
+                            break;
+                        case 4:
+                            DistrMeasure distrMeasure = new DistrMeasure();
+                            distrMeasure.distributionAnalysisReport();
+                            break;
+                        case 5:
+                            //Correlational analysis
+                            break;
+                        default:
+                            System.out.println ("Invalid choice. Please enter the digit in front of the desired command");
+                            break;
                 }
             }
         }

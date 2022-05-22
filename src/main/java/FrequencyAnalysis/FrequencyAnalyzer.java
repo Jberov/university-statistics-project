@@ -2,19 +2,14 @@ package FrequencyAnalysis;
 
 import Entities.UserLogs;
 import FileOps.FileDataReader;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 public class FrequencyAnalyzer {
-    private List<?> data;
-    private FileDataReader reader = new FileDataReader ();
+    private final FileDataReader reader = new FileDataReader ();
 
     public void frequencyReport(String filepath) throws IOException, ParseException {
         Map<String, Integer> studentData = findAbsoluteFrequency (filepath);
